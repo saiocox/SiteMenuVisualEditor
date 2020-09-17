@@ -1,0 +1,25 @@
+.add-menu-icon {
+  border: 2px;
+  margin-top: 50px;
+  height: 5px;
+  svg {
+    -webkit-filter: drop-shadow(3px 3px 8px rgba(107, 74, 255, 0.5));
+    filter: drop-shadow(3px 3px 8px rgba(107, 74, 255, 0.5));
+    cursor: pointer;
+    margin-top: -30px;
+  }
+  &:hover {
+    border: dashed 3px rgba(107, 74, 255, 0.5);
+  }
+}
+
+.no-menu-selected {
+  margin-top: 30px;
+}
+
+.left-side {
+  &:hover {
+    min-width: 600px;
+    max-width: 100%;
+  }
+}
