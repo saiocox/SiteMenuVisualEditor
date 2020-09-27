@@ -49,10 +49,10 @@ export class SiteMenuService {
             );
     }
 
-    postSiteMenu (siteMenu: SiteMenu): Observable<any> {
+    public postSiteMenu (siteMenu: SiteMenu): Observable<any> {
         return this.http.post<SiteMenu>(this.baseEndpoint, siteMenu, httpOptions).pipe(
-            tap((j: SiteMenu) => console.log(`added property w/ id=${j.id}`)),
-            catchError(this.handleError<SiteMenu>('addProperty'))
+            tap((j: SiteMenu) => console.log(`added sitemenu`)),
+            catchError(this.handleError<SiteMenu>('postSiteMenu'))
         );
     }
 

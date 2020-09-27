@@ -4,6 +4,7 @@ import {SiteMenuService} from "./_services/site-menu.service";
 import {catchError, tap} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {ISiteMenu} from "./Models/isite-menu";
+import {SiteMenu} from "./Models/site-menu";
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,14 @@ import {ISiteMenu} from "./Models/isite-menu";
 export class AppComponent implements OnInit {
     title = 'VisualEditor';
     AllSiteMenus: AllSiteMenus;
+    windowState: string; // newMenu, editMenu
+    newSiteMenu: ISiteMenu;
+    newSiteMenuCreated: boolean;
+    newSiteMenuCreateMsg: string;
     selectedSiteMenu: ISiteMenu;
     constructor(@Inject(APP_CONFIG) private config: AppConfig, private siteMenuService: SiteMenuService) {
         this.AllSiteMenus = new AllSiteMenus();
+        this.newSiteMenu = new SiteMenu();
     }
 
     ngOnInit() {
@@ -23,7 +29,28 @@ export class AppComponent implements OnInit {
     }
 
     public addNewMenu(): void {
+        if (this.windowState == 'newMenu') {
+            this.windowState = '';
+        }else {
+            this.windowState = 'newMenu';
+            if (this.newSiteMenu==null) {
+                //this.newSiteMenu = new SiteMenu();
+            }
+        }
+    }
 
+    public saveNewMenu(): void {
+        console.log ("newSiteMenu: ", this.newSiteMenu);
+        this.siteMenuService.postSiteMenu(this.newSiteMenu).subscribe(response => {
+                console.log ("Create: ", response);
+                this.newSiteMenuCreated = true;
+                this.newSiteMenuCreateMsg = response.message;
+            },
+            error => {
+                console.log (error);
+                this.newSiteMenuCreated = false;
+                // this.newSiteMenuCreateMsg = error.message;
+            })
     }
 
     public loadSiteMenus(): void {
@@ -64,6 +91,7 @@ export class AppComponent implements OnInit {
 
     loadSiteMenu(siteMenu: ISiteMenu) {
         this.selectedSiteMenu = siteMenu;
+        this.windowState = 'editMenu';
     }
 }
 

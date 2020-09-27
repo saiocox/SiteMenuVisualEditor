@@ -30,7 +30,7 @@
     </form>
   </div>
 </nav>-->
-<main role="main" class="container">
+<main role="main" class="container-fluid">
     <div style="display: grid;
   grid-column-gap: 50px;
   grid-template-columns: 400px 600px;">
@@ -38,7 +38,7 @@
             <h2>Site Menus</h2>
             <ul class="nav nav-pills nav-fill" *ngIf="AllSiteMenus.Loaded; else loadingMenus">
                 <ng-container *ngFor="let siteMenu of AllSiteMenus.SiteMenus">
-                    <li class="nav-item">
+                    <li class="nav-item" style="position: relative;">
                         <a class="nav-link active" (click)="loadSiteMenu(siteMenu)" href="#">{{siteMenu.title}} ({{siteMenu.placement_name}})</a>
                     </li>
                 </ng-container>
@@ -67,7 +67,27 @@
                         <path d="m256 178.289062c-8.285156 0-15 6.714844-15 15v47.710938h-47.710938c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15h47.710938v47.710938c0 8.285156 6.714844 15 15 15s15-6.714844 15-15v-47.710938h47.710938c8.285156 0 15-6.714844 15-15s-6.714844-15-15-15h-47.710938v-47.710938c0-8.285156-6.714844-15-15-15zm0 0"/>
                     </g>
                 </svg>
+                <div *ngIf="windowState=='newMenu'" class="new-menu-popover">
+                    <div class="arrow" style="left: 50%;"></div>
+                    <h2>Create New Menu</h2>
+                    <div>{{newSiteMenuCreateMsg}}</div>
+                    <form #newMenuForm="ngForm">
+                        <div class="form-group">
+                            <!--<label for="newMenuTitle">Title</label>-->
+                            <input type="text" name="title" class="form-control" [(ngModel)]="newSiteMenu.title" id="newMenuTitle" placeholder="Enter menu title" />
+                            <!--<small id="newMenuTitleHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                        <div class="form-group">
+                            <!--<label for="newMenuTitle">About</label>-->
+                            <textarea type="text" name="about" class="form-control" [(ngModel)]="newSiteMenu.about" id="newMenuAbout" placeholder="A small note about the menu"></textarea>
+                            <!--<small id="newMenuAboutHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    {{newSiteMenu.title}}
+                    <button type="button" (click)="saveNewMenu()" class="btn btn-primary">Save Menu</button>
+                    </form>
+                </div>
             </div>
+
         </div>
         <div>
             <div *ngIf="selectedSiteMenu; else noMenuSelected">
@@ -90,7 +110,17 @@
                         </div>
                     </li>
                 </ul>
-                <h3 style="text-align: center;">Settings</h3>
+                <h3 style="text-align: center; margin-top: 40px;">Settings</h3>
+                <div class="new-menu-popover" >
+                    <div class="arrow" style="left: 50%;"></div>
+                    <!--<h2>Edit Site Menu</h2>-->
+                    <div class="form-group">
+                        <label for="editMenuTitle">Title</label>
+                        <input type="text" class="form-control" id="editMenuTitle" placeholder="Enter menu title">
+                        <small id="editMenuHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <button type="button" (click)="saveNewMenu()" class="btn btn-primary">Save Menu</button>
+                </div>
             </div>
             <ng-template #noMenuSelected>
                 <div class="no-menu-selected">

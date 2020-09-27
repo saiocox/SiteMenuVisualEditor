@@ -34,7 +34,7 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::post('sitemenus', function(Request $request) {
-        return SiteMenu::create($request->all);
+        return SiteMenu::create($request->all());
     });
 
     Route::put('sitemenus/{id}', function(Request $request, $id) {
